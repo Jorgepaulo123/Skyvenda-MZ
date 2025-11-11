@@ -176,7 +176,7 @@ export default function InputSearchMobile() {
                   className="bg-white rounded-lg p-3 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow"
                 >
                   <img 
-                    src={`https://skyvendas-production.up.railway.app/produto/${product.capa}`} 
+                    src={`https://skyvenda-mz.up.railway.app/produto/${product.capa}`} 
                     alt={product.titulo || 'Produto'} 
                     className="w-16 h-16 object-cover rounded-md"
                     onError={(e) => {

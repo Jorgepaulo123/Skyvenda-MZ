@@ -218,7 +218,7 @@ export default function ProductPage() {
     if(!product?.user?.id) return;
     try{
       setFollowLoading(true);
-      await axios.post(`https://skyvendas-production.up.railway.app/usuario/${product.user.id}/seguir`, '', {headers:{Authorization:`Bearer ${token}`, accept:'application/json'}});
+      await axios.post(`https://skyvenda-mz.up.railway.app/usuario/${product.user.id}/seguir`, '', {headers:{Authorization:`Bearer ${token}`, accept:'application/json'}});
       setIsFollowing(prev=>!prev);
       toast({title: isFollowing? 'Deixou de seguir' : 'Agora segues este vendedor'});
     }catch(err){

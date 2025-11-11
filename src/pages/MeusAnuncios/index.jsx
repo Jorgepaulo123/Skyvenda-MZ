@@ -15,7 +15,7 @@ import {
 } from "../../components/ui/dialog";
 
 const api = axios.create({
-  baseURL: 'https://skyvendas-production.up.railway.app',
+  baseURL: 'https://skyvenda-mz.up.railway.app',
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json'

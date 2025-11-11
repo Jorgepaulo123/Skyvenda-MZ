@@ -45,15 +45,15 @@ export default function OverviewPage() {
         };
         
         // Requisição para obter transações
-        const transactionsResponse = await axios.get('https://skyvendas-production.up.railway.app/usuario/transacoes/listar', { headers });
+        const transactionsResponse = await axios.get('https://skyvenda-mz.up.railway.app/usuario/transacoes/listar', { headers });
         setTransactions(transactionsResponse.data);
         
         // Requisição para obter dados do cartão
-        const cardResponse = await axios.get('https://skyvendas-production.up.railway.app/usuario/card', { headers });
+        const cardResponse = await axios.get('https://skyvenda-mz.up.railway.app/usuario/card', { headers });
         setCardData(cardResponse.data);
         
         // Requisição para obter dados do usuário
-        const userResponse = await axios.get('https://skyvendas-production.up.railway.app/usuario/user', { headers });
+        const userResponse = await axios.get('https://skyvenda-mz.up.railway.app/usuario/user', { headers });
         setUserData(userResponse.data);
         
         console.log('Dados carregados com sucesso!');
