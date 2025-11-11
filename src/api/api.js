@@ -1,11 +1,7 @@
 import axios from "axios";
 
-const isDevelopment = window.location.hostname === 'localhost' || 
-                      window.location.hostname === '192.168.1.63' || 
-                      window.location.hostname === '192.168.1.36';
-
 // Direct API access without proxy
-export const base_url = 'https://skyvendas-production.up.railway.app';
+export const base_url = 'https://skyvenda-mz.up.railway.app';
 
 const api = axios.create({
     baseURL: base_url,
