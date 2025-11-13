@@ -26,7 +26,7 @@ interface PublicationDialogProps {
 export function PublicationDialog({ isOpen, onClose }: PublicationDialogProps) {
   const [content, setContent] = useState('');
   const [selectedGradient, setSelectedGradient] = useState(gradientStyles[0]);
-  const { user, token } = useAuth();
+  const { user, token } = useAuth() as any;
 
   const handlePublish = async () => {
     if (!content.trim()) return;
@@ -61,7 +61,7 @@ export function PublicationDialog({ isOpen, onClose }: PublicationDialogProps) {
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <img 
-                  src={user?.foto_perfil || '/default-avatar.png'} 
+                  src={(user as any)?.foto_perfil || '/default-avatar.png'} 
                   alt="Profile" 
                   className="w-10 h-10 rounded-full"
                 />
