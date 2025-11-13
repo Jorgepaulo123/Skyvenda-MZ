@@ -10,7 +10,7 @@ export function AdsColumn({ ads }) {
       const shuffled = [...ads].sort(() => Math.random() - 0.5);
       return shuffled.slice(0, 3);
     };
-
+  
     // Initial selection
     setDisplayedAds(selectRandomAds());
 
