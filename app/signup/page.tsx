@@ -37,7 +37,7 @@ function Signup() {
   const [loading,setLoading]=useState(false)
   const [refCode, setRefCode] = useState('');
   
-  const { signup } = useAuth();
+  const { signup } = useAuth() as any;
 
   // Detect and persist referral code from URL/localStorage
   useEffect(() => {
