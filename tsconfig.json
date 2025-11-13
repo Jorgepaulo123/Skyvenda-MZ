@@ -31,5 +31,10 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "components/feed_native/**",
+    "components/feed/products/FeaturedProducts.tsx",
+    "components/feed/products/fullviewitem.tsx"
+  ]
 }
