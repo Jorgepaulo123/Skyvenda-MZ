@@ -6,7 +6,8 @@ import 'dayjs/locale/pt';
 dayjs.extend(relativeTime);
 dayjs.locale('pt');
 import { Heart, MessageCircle, Send } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { AuthContext } from '../../context/AuthContext';
 import api from '../../api/api';
 
@@ -25,7 +26,7 @@ function PublicationCard({ pub }) {
   }
 
   const { user, token, isAuthenticated } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const router = useRouter();
   const [isLiked, setIsLiked] = useState(Boolean(pub?.deu_like));
   const [likesCount, setLikesCount] = useState(Number(pub?.total_likes ?? pub?.likes_count ?? 0));
   if (!pub) return null;
@@ -39,7 +40,7 @@ function PublicationCard({ pub }) {
       <div className="relative h-full w-full flex flex-col justify-between p-4 text-white">
         {/* header */}
         {usr && (
-          <Link to={`/${usr.username || usr.id}`} className="flex items-center gap-2 mb-2">
+          <Link href={`/${usr.username || usr.id}`} className="flex items-center gap-2 mb-2">
             <img src={avatarSrc} onError={e=>e.target.src='/avatar.png'} alt={usr.nome}
                  className="w-8 h-8 rounded-full border-2 border-white"/>
             <span className="text-sm font-semibold drop-shadow-md">{usr.nome}</span>
@@ -61,7 +62,7 @@ function PublicationCard({ pub }) {
           <button
             onClick={(e)=>{
               e.stopPropagation();
-              if(!isAuthenticated){navigate('/login');return;}
+              if(!isAuthenticated){router.push('/login');return;}
               setIsLiked(v=>!v);
               setLikesCount(c=>isLiked?c-1:c+1);
               api.post(`/publicacoes/${pub.id}/like`,{}, { headers:{Authorization:`Bearer ${token}`}}).catch(()=>{});
@@ -70,10 +71,10 @@ function PublicationCard({ pub }) {
             <Heart className={`w-5 h-5 ${isLiked?'fill-red-500 text-red-500':''}`} />
             <span className="text-sm">{likesCount}</span>
           </button>
-          <button onClick={()=>navigate(`/publicacoes/${pub.id}`)} className="text-white hover:text-indigo-300">
+          <button onClick={()=>router.push(`/publicacoes/${pub.id}`)} className="text-white hover:text-indigo-300">
             <MessageCircle className="w-5 h-5" />
           </button>
-          <button onClick={()=>navigate(`/chat/${pub.usuario.username}`)} className="text-white hover:text-indigo-300">
+          <button onClick={()=>router.push(`/chat/${pub.usuario.username}`)} className="text-white hover:text-indigo-300">
             <Send className="w-5 h-5" />
           </button>
         </div>

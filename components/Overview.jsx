@@ -1,7 +1,7 @@
 import { DollarSign, Package, CreditCard, ArrowDownLeft, ArrowUpRight, History, Calendar, Wallet, BanknoteIcon, ShoppingBag, Store, ArrowDownIcon, ArrowUpIcon, ShoppingCart } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
@@ -10,7 +10,7 @@ export default function Overview({ totalVendas, totalProdutos, saldoCarteira, pe
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const router = useRouter();
   const { token } = useAuth();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function Overview({ totalVendas, totalProdutos, saldoCarteira, pe
         if (!token) {
           console.error('Token não encontrado');
           setError('Sessão expirada. Por favor, faça login novamente.');
-          navigate('/login');
+          router.push('/login');
           return;
         }
 
@@ -41,7 +41,7 @@ export default function Overview({ totalVendas, totalProdutos, saldoCarteira, pe
         if (error.response?.status === 401) {
           setError('Sessão expirada. Por favor, faça login novamente.');
           localStorage.removeItem('auth_token');
-          navigate('/login');
+          router.push('/login');
         } else {
           setError(error.response?.data?.detail || 'Erro ao carregar transações. Tente novamente mais tarde.');
         }
@@ -51,7 +51,7 @@ export default function Overview({ totalVendas, totalProdutos, saldoCarteira, pe
     };
 
     fetchTransactions();
-  }, [navigate, token]);
+  }, [router, token]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);

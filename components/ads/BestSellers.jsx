@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Star } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import Link from 'next/link';
 import api from '../../api/api';
 import { AuthContext } from '../../context/AuthContext';
 import { useToast } from "../../hooks/use-toast";
@@ -89,7 +89,7 @@ export function BestSellers() {
               {/* Name and rating */}
               <div className="flex-1">
                 <div className="flex items-center">
-                  <Link to={`/${seller.username}`} className="font-medium text-gray-900 hover:text-blue-600 hover:underline transition-colors">
+                  <Link href={`/${seller.username}`} className="font-medium text-gray-900 hover:text-blue-600 hover:underline transition-colors">
                     {seller.nome}
                   </Link>
                 </div>
@@ -151,7 +151,7 @@ export function BestSellers() {
       
       {/* Footer */}
       <div className="p-2 border-t border-gray-100 bg-gray-50 text-center">
-        <Link to="/sellers" className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors">
+        <Link href="/sellers" className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors">
           Ver todos os nhonguistas
         </Link>
       </div>

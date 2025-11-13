@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useContext } from 'react';
 import { Heart, MapPin, Eye, MessageCircle, ShoppingCart } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { AuthContext } from '../../context/AuthContext';
 import api from '../../api/api';
 import { base_url } from '../../api/api';
@@ -8,7 +8,7 @@ import { base_url } from '../../api/api';
 export function ModernCard({ product }) {
   const [isLiked, setIsLiked] = useState(product.liked || false);
   const [likesCount, setLikesCount] = useState(parseInt(product.likes) || 0);
-  const navigate = useNavigate();
+  const router = useRouter();
   const { isAuthenticated, token } = useContext(AuthContext);
 
   const handleLike = useCallback(async (e) => {
@@ -16,7 +16,7 @@ export function ModernCard({ product }) {
     e.stopPropagation();
     
     if (!isAuthenticated) {
-      navigate('/login');
+      router.push('/login');
       return;
     }
 
@@ -53,7 +53,7 @@ export function ModernCard({ product }) {
 
   return (
     <div className="bg-white rounded-xl border border-grey-300 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
-      <div className="relative h-60" onClick={() => navigate(`/product/${product.slug}`)}>
+      <div className="relative h-60" onClick={() => router.push(`/product/${product.slug}`)}>
         <img 
           src={getImageUrl(product.thumb || product.capa)}
           onError={(e) => e.target.src = `${base_url}/default.png`}
@@ -118,7 +118,7 @@ export function ModernCard({ product }) {
           </div>
           
           <button
-            onClick={() => navigate(`/product/${product.slug}`)}
+            onClick={() => router.push(`/product/${product.slug}`)}
             className="flex items-center gap-1 bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors"
           >
             <ShoppingCart className="w-4 h-4" />
