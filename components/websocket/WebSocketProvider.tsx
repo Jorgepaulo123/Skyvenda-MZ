@@ -125,7 +125,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
       return;
     }
 
-    console.log('WebSocket: Iniciando conexão com token e ID de usuário:', user.id);
+    console.log('WebSocket: Iniciando conexão com token e ID de usuário:', (user as any)?.id);
     
     // URL do WebSocket (padronizada em /ws com token no query)
     const apiUrl = new URL(base_url);
@@ -134,7 +134,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
     const query = token ? `?token=${encodeURIComponent(token)}` : '';
     const wsUrl = `${proto}://${host}/ws${query}`;
     console.log('%cWebSocket: Tentando conectar em: ' + wsUrl, 'color: blue; font-weight: bold');
-    console.log('WebSocket: ID do usuário:', user.id);
+    console.log('WebSocket: ID do usuário:', (user as any)?.id);
     console.log('WebSocket: Token disponível:', !!token);
     
     // Criar nova conexão WebSocket
