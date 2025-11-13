@@ -35,7 +35,6 @@
     "node_modules",
     "components/feed_native/**",
     "components/feed/products/FeaturedProducts.tsx",
-    "components/feed/products/fullviewitem.tsx",
-    "app/post/**"
+    "components/feed/products/fullviewitem.tsx"
   ]
 }
