@@ -21,7 +21,11 @@ export default function PostsPage() {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const myUsername = useMemo(() => (user?.username || "").toLowerCase(), [user?.username]);
+  const myUsername = useMemo(() => {
+    const u: any = user as any;
+    const uname = u && typeof u === 'object' ? u.username : undefined;
+    return (uname ? String(uname) : "").toLowerCase();
+  }, [user]);
 
   const fetchMyPosts = useCallback(async (reset = false) => {
     if (!token || loading) return;
