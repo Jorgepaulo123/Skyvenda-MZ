@@ -1,7 +1,0 @@
-Esta pasta contém as imagens dos banners promocionais.
-
-Imagens necessárias:
-1. tenis-azul.png - Imagem do tênis azul para o banner "Nova coleção"
-2. bluetooth-speaker.png - Imagem do alto-falante bluetooth para o banner "China Bluetooth"
-
-As imagens devem ter fundo transparente (PNG) e resolução mínima de 500x500px para melhor qualidade. 
