@@ -2,7 +2,7 @@ import React from 'react';
 import { Home, Search, Compass, Film, Heart, PlusSquare, MessageCircle, Menu, Instagram } from 'lucide-react';
 import { useState } from 'react';
 import { FaShopify } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 export default function Layout2({children}) {
   return (

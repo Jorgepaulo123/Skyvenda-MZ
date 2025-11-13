@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import Header from "../components/Header1";
 import { AdsColumn } from "../components/ads/ads_column";
 import { HomeContext } from "../context/HomeContext";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { base_url } from "../config/api";
 export default function SearchLayout({children}) {
   const {user, isAuthenticated, logout} = useContext(AuthContext);
@@ -48,7 +48,7 @@ export default function SearchLayout({children}) {
       </div>
       <div className="flex gap-4 flex-wrap">
         {ads.map((ad, index) => (
-          <Link to={`${base_url}/post/${ad.produto.slug}`}>
+          <Link href={`${base_url}/post/${ad.produto.slug}`}>
           <div
             className="bg-white rounded-lg p-2 cursor-pointer hover:shadow-md transition-all duration-300 ease-in-out transform hover:-translate-y-1"
             key={`ad-${index}`} // Chave única para cada anúncio

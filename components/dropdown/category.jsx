@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu, ChevronDown, ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -77,7 +77,7 @@ export default function CategoriesDropdown() {
                   {category.subcategories.map((subcategory) => (
                     <DropdownMenuItem key={subcategory} asChild>
                       <Link
-                        to={`/${category.name.toLowerCase()}/${subcategory.toLowerCase().replace(/\s+/g, '-')}`}
+                        href={`/${category.name.toLowerCase()}/${subcategory.toLowerCase().replace(/\s+/g, '-')}`}
                         className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-50"
                       >
                         {subcategory}

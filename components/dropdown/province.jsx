@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { PROVINCIAS } from "../../data/consts";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { FiMapPin,FiChevronDown } from "react-icons/fi";
 export function ProvinceDropdown() {
   return (
@@ -20,7 +20,7 @@ export function ProvinceDropdown() {
         {PROVINCIAS.map((province) => (
           <DropdownMenuItem key={province} asChild>
             <Link 
-              to={`/p/${province.toLowerCase()}`}
+              href={`/p/${province.toLowerCase()}`}
               className="flex items-center gap-2"
             >
               <MapPin className="h-4 w-4 text-indigo-500" />

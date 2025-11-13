@@ -2,7 +2,7 @@ import React from "react";
 import { FiUser, FiChevronLeft, FiSearch } from 'react-icons/fi';
 import { profileMenuItems } from "../../data/PopUpMenu";
 import { sidebarMenuItems } from "../../data/SidebarMenu";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 export default function PopupMenuMobile({ user, isAuthenticated, logout, handleNavigate }) {
     return (
@@ -15,9 +15,9 @@ export default function PopupMenuMobile({ user, isAuthenticated, logout, handleN
             </button>
             <h2 className="text-xl font-semibold">Menu</h2>
           </div>
-          <button onClick={() => handleNavigate('/search')} className="p-2">
+          <Link href="/search" className="p-2">
             <FiSearch size={22} />
-          </button>
+          </Link>
         </div>
 
         {/* User Profile Section */}
@@ -41,20 +41,17 @@ export default function PopupMenuMobile({ user, isAuthenticated, logout, handleN
               <h3 className="text-base font-semibold text-gray-800">{user.name}</h3>
               <p className="text-sm text-gray-500">{user.email}</p>
             </div>
-            <button 
-              onClick={() => handleNavigate('/profile')} 
-              className="ml-auto p-2 rounded-full bg-gray-100"
-            >
+            <Link href="/profile" className="ml-auto p-2 rounded-full bg-gray-100">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
               </svg>
-            </button>
+            </Link>
           </div>
         </div>
 
         {/* Best Nhonguistas Section */}
         <div className="px-4 py-4 border-b border-gray-100">
-          <Link to="/nhonguistas" className="flex items-center space-x-3">
+          <Link href="/nhonguistas" className="flex items-center space-x-3">
             <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -69,19 +66,19 @@ export default function PopupMenuMobile({ user, isAuthenticated, logout, handleN
 
         {/* Stats Section */}
         <div className="grid grid-cols-2 gap-2 p-3">
-          <Link to="/produtos" className="bg-blue-50 rounded-lg p-4 flex flex-col items-center justify-center">
+          <Link href="/produtos" className="bg-blue-50 rounded-lg p-4 flex flex-col items-center justify-center">
             <span className="text-2xl font-bold text-blue-600">{user.total_produtos || 4}</span>
             <span className="text-sm text-gray-600">Produtos</span>
           </Link>
-          <Link to="/pedidos" className="bg-pink-50 rounded-lg p-4 flex flex-col items-center justify-center">
+          <Link href="/pedidos" className="bg-pink-50 rounded-lg p-4 flex flex-col items-center justify-center">
             <span className="text-2xl font-bold text-pink-600">{user.total_pedidos || 3}</span>
             <span className="text-sm text-gray-600">Pedidos</span>
           </Link>
-          <Link to="/chat" className="bg-green-50 rounded-lg p-4 flex flex-col items-center justify-center">
+          <Link href="/chat" className="bg-green-50 rounded-lg p-4 flex flex-col items-center justify-center">
             <span className="text-2xl font-bold text-green-600">{user.total_mensagens || 0}</span>
             <span className="text-sm text-gray-600">Mensagens</span>
           </Link>
-          <Link to="/friends" className="bg-purple-50 rounded-lg p-4 flex flex-col items-center justify-center">
+          <Link href="/friends" className="bg-purple-50 rounded-lg p-4 flex flex-col items-center justify-center">
             <span className="text-2xl font-bold text-purple-600">{user.total_amigos || 0}</span>
             <span className="text-sm text-gray-600">Amigos</span>
           </Link>
@@ -94,7 +91,7 @@ export default function PopupMenuMobile({ user, isAuthenticated, logout, handleN
             {sidebarMenuItems.map((item, index) => (
               <Link
                 key={index}
-                to={item.route}
+                href={item.route}
                 className={`flex items-center px-3 py-2 rounded-md hover:bg-gray-100 ${item.highlight ? 'bg-blue-50' : ''} ${item.className || ''}`}
                 onClick={(e) => {
                   if (item.label === 'Sair') {
@@ -117,7 +114,7 @@ export default function PopupMenuMobile({ user, isAuthenticated, logout, handleN
             {profileMenuItems.map((item, index) => (
               <Link
                 key={index}
-                to={item.route}
+                href={item.route}
                 className={`flex items-center px-3 py-2 rounded-md hover:bg-gray-100 ${item.className || ''}`}
                 onClick={(e) => {
                   if (item.label === 'Terminar Sessão') {
@@ -139,7 +136,7 @@ export default function PopupMenuMobile({ user, isAuthenticated, logout, handleN
         <div className="px-4 py-3 border-t border-gray-100">
           <h3 className="px-2 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Configurações</h3>
           <div className="space-y-2">
-            <Link to="/settings" className="flex items-center justify-between px-2 py-2 rounded-md hover:bg-gray-100">
+            <Link href="/settings" className="flex items-center justify-between px-2 py-2 rounded-md hover:bg-gray-100">
               <div className="flex items-center">
                 <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 mr-3">
                   <FiSettings size={18} />
@@ -150,6 +147,7 @@ export default function PopupMenuMobile({ user, isAuthenticated, logout, handleN
                 <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
               </svg>
             </Link>
+
             <div className="flex items-center justify-between px-2 py-2 rounded-md hover:bg-gray-100">
               <div className="flex items-center">
                 <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 mr-3">
@@ -164,7 +162,7 @@ export default function PopupMenuMobile({ user, isAuthenticated, logout, handleN
                 <label htmlFor="darkMode" className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
               </div>
             </div>
-            <Link to="/languages" className="flex items-center justify-between px-2 py-2 rounded-md hover:bg-gray-100">
+            <Link href="/languages" className="flex items-center justify-between px-2 py-2 rounded-md hover:bg-gray-100">
               <div className="flex items-center">
                 <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 mr-3">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -177,6 +175,7 @@ export default function PopupMenuMobile({ user, isAuthenticated, logout, handleN
                 <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
               </svg>
             </Link>
+
           </div>
         </div>
       </div>

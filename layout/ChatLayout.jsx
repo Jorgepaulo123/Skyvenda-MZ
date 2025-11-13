@@ -2,7 +2,7 @@ import React from 'react';
 import { Home, Search, Compass, Film, Heart, PlusSquare, MessageCircle, Menu, Instagram } from 'lucide-react';
 import { useState } from 'react';
 import { FaShopify } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 export default function ChatLayout({children}) {
   const [isOpen, setIsOpen] = useState(true);
@@ -33,7 +33,7 @@ export default function ChatLayout({children}) {
           {menuItems.map((item, index) => (
             <Link
               key={index}
-              to={item.to}
+              href={item.to}
               className="flex items-center gap-4 p-3 hover:bg-gray-100 rounded-lg cursor-pointer transition-colors justify-center"
               title={item.label}
             >
