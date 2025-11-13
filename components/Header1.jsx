@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useRef, useEffect, useContext } from 'react';
+import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
 import {FiPlus, FiShoppingCart, FiSearch, FiHome, FiBell, FiMenu, FiUser, FiSettings, FiHelpCircle, FiLogOut, FiGrid, FiEdit3 } from 'react-icons/fi';
 import Cart from './Cart';
 import { AuthContext } from '../context/AuthContext';
-import { useContext } from 'react';
 import PopUpMenu from './popupmenu/popup_menu';
 import PopupMenuDeskTop from './popupmenu/popupmenu_desktop';
 import PopupMenuMobile from './popupmenu/popup_menu_mobile';
@@ -26,13 +26,13 @@ function Header() {
   const [showPostDialog,setShowPostDialog]= useState(false);
   
   const [isNotificationOpen,setIsNotificationOpen] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
   const profileRef = useRef(null);
   const menuClickedRef = useRef(false);
   const {user,isAuthenticated,logout}=useContext(AuthContext)
   const NotificationRef = useRef(null);
   const SearchcardRef = useRef(null);
-  const location = useLocation();
+  const pathname = usePathname();
   
   // Usar o hook useWebSocket para obter a contagem de notificações
   const { notificationCount, resetNotificationCount } = useWebSocket();
@@ -68,7 +68,7 @@ function Header() {
   const handleNavigate = (route) => {
     // Marcamos que o clique foi em um item do menu
     menuClickedRef.current = true;
-    navigate(route);
+    router.push(route);
     // Fechamos o menu após um pequeno delay para garantir que o handleClickOutside não interfira
     setTimeout(() => {
       setIsProfileOpen(false);
@@ -80,7 +80,7 @@ function Header() {
 
   const handleSearchSelect = (product) => {
     setSearchTerm(product);
-    navigate(`/search?q=${product}`);
+    router.push(`/search?q=${product}`);
     setIsSearchOpen(false);
     setShowSuggestions(false)
   };
@@ -98,7 +98,8 @@ function Header() {
     setIsProfileOpen(!isProfileOpen);
   };
 
-  const isActiveRoute = (path) => location.pathname === path;
+  const isActiveRoute = (path) => pathname === path;
+
 
   return (
     <header className="border-b border-gray-300 shadow-sm top-0 z-50 bg-gradient-to-r backdrop:blur-md from-pink-50 to-red-50 ">
@@ -109,12 +110,9 @@ function Header() {
         {/* Desktop Header */}
         <div className="hidden md:flex flex-col md:flex-row justify-between items-center py-2">
           <div className="flex items-center mb-4 md:mb-0">
-            <button 
-              onClick={() => handleNavigate('/')} 
-              className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent"
-            >
+            <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
               SkyVenda MZ
-            </button>
+            </Link>
           </div>
           <div className="flex-grow mx-4 relative max-w-[400px] w-full">
             <div className="relative search-container">
@@ -130,7 +128,7 @@ function Header() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     setIsSearchOpen(false)
-                    navigate(`/search?q=${searchTerm}`)
+                    router.push(`/search?q=${searchTerm}`)
                   }
                 }}
                 onFocus={()=>setShowSearchCard(!showSearchCard)}
@@ -188,8 +186,8 @@ function Header() {
 
             <div className='hover:bg-indigo-200 w-[40px] h-[40px] rounded-full flex items-center justify-center bg-gradient-to-r from-pink-100 to-red-100'>
               <button 
-                onClick={() => handleNavigate('/chat')} 
-                className={`text-gray-600 hover:text-blue-600 relative ${
+                onClick={() => router.push('/chat')} 
+                className={`text-gray-600 ${
                   isActiveRoute('/chat') ? 'text-indigo-600' : ''
                 }`}
               >
@@ -203,7 +201,7 @@ function Header() {
 
             <div className='hover:bg-indigo-200 w-[40px] h-[40px] rounded-full flex items-center justify-center bg-gradient-to-r from-pink-100 to-red-100'>
               <button
-                onClick={() => handleNavigate('/menu')}
+                onClick={() => router.push('/menu')}
                 className="text-gray-600 hover:text-blue-600 relative cursor-pointer"
               >
                 <FiShoppingCart size={24} />
@@ -217,21 +215,18 @@ function Header() {
         <div className="md:hidden">
           {/* Top Row */}
           <div className="flex justify-between items-center py-4">
-            <button 
-              onClick={() => handleNavigate('/')} 
-              className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent"
-            >
+            <Link href="/" className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
               SkyVenda MZ
-            </button>
+            </Link>
             <div className="flex items-center">
               <button onClick={() =>setShowPostDialog(true)} className="text-gray-600 mr-4 bg-gradient-to-r from-pink-100 to-red-100 p-2 rounded-full">
                 <FaPlus size={24} />
               </button>
-              <button onClick={() => navigate('/m/search')} className="text-gray-600 mr-4 bg-gradient-to-r from-pink-100 to-red-100 p-2 rounded-full">
+              <button onClick={() => router.push('/m/search')} className="text-gray-600 mr-4 bg-gradient-to-r from-pink-100 to-red-100 p-2 rounded-full">
                 <FiSearch size={24} />
               </button>
               <button
-                onClick={() => handleNavigate('/menu')}
+                onClick={() => router.push('/menu')}
                 className="text-gray-600 relative hchild bg-gradient-to-r from-pink-100 to-red-100 p-2 rounded-full"
               >
                 <Menu size={24} />

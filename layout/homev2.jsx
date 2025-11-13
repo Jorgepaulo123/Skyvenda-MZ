@@ -1,15 +1,13 @@
-import React, { useEffect, useState,useRef } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import React, { useEffect, useState, useRef, useContext } from 'react'
+import Link from 'next/link'
+import { useRouter, usePathname } from 'next/navigation'
 import {ArrowRight, Bell, CarFront, Check, ChevronLeft, ChevronRight, ChevronRightCircle, Heart, Home, List, MapPinIcon, Menu, MessageCircle, PlusIcon, RefreshCcw, Search, ShoppingCart, User2 } from 'lucide-react'
 import { FaCaretDown, FaPlus, FaShopify } from 'react-icons/fa'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select'
 import AdsMore from '../components/ads/ads'
 import { base_url } from '../config/api'
 import { FiSearch, FiShoppingCart, FiUser } from 'react-icons/fi'
-import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
-import { useContext } from 'react'
-import { useLocation } from 'react-router-dom'
 import { useWebSocket } from '../components/websocket/WebSocketProvider'
 
 export default function Homev2() {
@@ -18,13 +16,13 @@ export default function Homev2() {
     const [province,setProvince]=useState('niassa')
       const [searchTerm, setSearchTerm] = useState('');
       const [isSearchOpen, setIsSearchOpen] = useState(false);
-      const navigate = useNavigate();
+      const router = useRouter();
       const profileRef = useRef(null);
       const menuClickedRef = useRef(false);
       const {user,isAuthenticated,logout}=useContext(AuthContext)
       const NotificationRef = useRef(null);
       const SearchcardRef = useRef(null);
-      const location = useLocation();
+      const pathname = usePathname();
       
       // Usar o hook useWebSocket para obter a contagem de notificações
       const { notificationCount, resetNotificationCount } = useWebSocket();
@@ -60,7 +58,7 @@ export default function Homev2() {
       const handleNavigate = (route) => {
         // Marcamos que o clique foi em um item do menu
         menuClickedRef.current = true;
-        navigate(route);
+        router.push(route);
         // Fechamos o menu após um pequeno delay para garantir que o handleClickOutside não interfira
         setTimeout(() => {
           setIsProfileOpen(false);
@@ -70,7 +68,7 @@ export default function Homev2() {
     
     
     
-      const isActiveRoute = (path) => location.pathname === path;
+      const isActiveRoute = (path) => pathname === path;
   
   return (
     <div className='w-full h-[100vh] bg-white overflow-y-scroll relative '>
@@ -81,16 +79,16 @@ export default function Homev2() {
                 <div className="flex  h-[40px] items-center justify-between container mx-auto py-2">
                     <span className='text-sm text-gray-600 font-sans'>Bem Vindo Na SkyVenda MZ</span>
                     <div className="flex items-center justify-center gap-4 font-sans text-gray-600">
-                    <Link>
+                    <Link href="#">
                         <span className='hover:text-indigo-500'>Contacte-nos</span>
                     </Link>
-                    <Link>
+                    <Link href="#">
                         <span className='hover:text-indigo-500'>Blog</span>
                     </Link>
-                    <Link>
+                    <Link href="#">
                         <span className='hover:text-indigo-500'>Minha Conta</span>
                     </Link>
-                    <div className='flex gap-2'><Link className='hover:text-indigo-500 flex gap-1'><User2/>Entrar</Link>/<Link className='hover:text-indigo-500'>Registar</Link></div>
+                    <div className='flex gap-2'><Link href="#" className='hover:text-indigo-500 flex gap-1'><User2/>Entrar</Link>/<Link href="#" className='hover:text-indigo-500'>Registar</Link></div>
                 </div>
                 </div>    
             </div>
@@ -112,7 +110,7 @@ export default function Homev2() {
               <button onClick={() =>setShowPostDialog(true)} className="text-gray-600 mr-4 bg-gradient-to-r from-pink-100 to-red-100 p-2 rounded-full">
                 <FaPlus size={24} />
               </button>
-              <button onClick={() => navigate('/m/search')} className="text-gray-600 mr-4 bg-gradient-to-r from-pink-100 to-red-100 p-2 rounded-full">
+              <button onClick={() => router.push('/m/search')} className="text-gray-600 mr-4 bg-gradient-to-r from-pink-100 to-red-100 p-2 rounded-full">
                 <FiSearch size={24} />
               </button>
               <button
@@ -140,7 +138,7 @@ export default function Homev2() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     setIsSearchOpen(false)
-                    navigate(`/search?q=${searchTerm}`)
+                    router.push(`/search?q=${searchTerm}`)
                   }
                 }}
               />
@@ -299,7 +297,7 @@ export default function Homev2() {
                     <div className="group relative cursor-pointer py-2 w-[250px] font-sans max_z_index">
                         <div className="flex items-center justify-between space-x-2 bg-indigo-500 px-4 text-white rounded-md">
                             <List/>
-                            <a className="menu-hover my-2 py-1 text-base font-medium text-white lg:mx-4" onClick="">
+                            <a className="menu-hover my-2 py-1 text-base font-medium text-white lg:mx-4">
                                 Todas As Categorias
                             </a>
                             <FaCaretDown/>
@@ -307,28 +305,28 @@ export default function Homev2() {
                         <div
                             className="invisible absolute  flex w-full flex-col bg-white py-1 px-4 text-gray-800 shadow-xl group-hover:visible">
                             <div className="border-b border-gray-100 hover:text-indigo-600 py-3">
-                                <Link className=''>Moda</Link>
+                                <Link href="#" className="">Moda</Link>
                             </div>
                             <div className="border-b border-gray-100 hover:text-indigo-600 py-3">
-                                <Link className=''>Eletrônicos</Link>
+                                <Link href="#" className="">Eletrônicos</Link>
                             </div>
                             <div className="border-b border-gray-100 hover:text-indigo-600 py-3">
-                                <Link className=''>Casa e Jardim</Link>
+                                <Link href="#" className="">Casa e Jardim</Link>
                             </div>
                             <div className="border-b border-gray-100 hover:text-indigo-600 py-3">
-                                <Link className=''>Saúde e Beleza</Link>
+                                <Link href="#" className="">Saúde e Beleza</Link>
                             </div>
                             <div className="border-b border-gray-100 hover:text-indigo-600 py-3">
-                                <Link className=''>Brinquedos e Jogos</Link>
+                                <Link href="#" className="">Brinquedos e Jogos</Link>
                             </div>
                             <div className="border-b border-gray-100 hover:text-indigo-600 py-3">
-                                <Link className=''>Culinária</Link>
+                                <Link href="#" className="">Culinária</Link>
                             </div>
                             <div className="border-b border-gray-100 hover:text-indigo-600 py-3">
-                                <Link className=''>Telefonia</Link>
+                                <Link href="#" className="">Telefonia</Link>
                             </div>
                             <div className="border-b border-gray-100 hover:text-indigo-600 py-3">
-                                <Link className=''>Esportes e Lazer</Link>
+                                <Link href="#" className="">Esportes e Lazer</Link>
                             </div>
 
                         </div>
@@ -336,10 +334,10 @@ export default function Homev2() {
                     {/* fim do dropdown */}
                     {/* menus */}
                     <div className="flex space-x-8 font-sans">
-                        <Link className='hover:text-indigo-500'>Home</Link>
-                        <Link className='hover:text-indigo-500'>Lojas</Link>
-                        <Link className='hover:text-indigo-500'>Nhonguistas</Link>
-                        <Link className='hover:text-indigo-500'>Meus produtos</Link>
+                        <Link href="#" className="hover:text-indigo-500">Home</Link>
+                        <Link href="#" className="hover:text-indigo-500">Lojas</Link>
+                        <Link href="#" className="hover:text-indigo-500">Nhonguistas</Link>
+                        <Link href="#" className="hover:text-indigo-500">Meus produtos</Link>
                     </div>
                     {/* menus */}
                     </div>

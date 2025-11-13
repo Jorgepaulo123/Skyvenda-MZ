@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { base_url } from '../api/api';
 import { Heart, Eye, MessageCircle, ShoppingCart } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import api from '../api/api';
+import { useRouter } from 'next/navigation';
 
 const formatPrice = (price) => {
   return new Intl.NumberFormat('pt-MZ', { style: 'currency', currency: 'MZN' })
@@ -14,7 +14,7 @@ const formatPrice = (price) => {
 const ProductCard = ({ product }) => {
   const [isLiked, setIsLiked] = React.useState(product.liked);
   const [likes, setLike] = React.useState(product.likes);
-  const navigate = useNavigate();
+  const router = useRouter();
   const { isAuthenticated } = useContext(AuthContext);
 
   const handleAddToCart = React.useCallback((e) => {
@@ -23,8 +23,8 @@ const ProductCard = ({ product }) => {
   }, [product.nome]);
 
   const handleClick = React.useCallback(() => {
-    navigate(`/post/${product.slug}`);
-  }, [navigate, product.slug]);
+    router.push(`/product/${product.slug}`);
+  }, [router, product.slug]);
 
   const handleLike = React.useCallback((e) => {
     e.preventDefault();
@@ -34,9 +34,9 @@ const ProductCard = ({ product }) => {
       setLike(prev => isLiked ? prev - 1 : prev + 1);
       api.post(`/produtos/${product.slug}/like`);
     } else {
-      navigate('/login');
+      router.push('/login');
     }
-  }, [isAuthenticated, isLiked, navigate, product.slug]);
+  }, [isAuthenticated, isLiked, router, product.slug]);
 
   return (
     <motion.div
