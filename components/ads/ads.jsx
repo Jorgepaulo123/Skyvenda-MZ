@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { base_url } from '../../api/api';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const ProductItemSkeleton = () => (
   <div className="bg-white/50 rounded-lg overflow-hidden shadow-sm p-3 flex-1">
@@ -15,7 +15,7 @@ const ProductItemSkeleton = () => (
 );
 
 const ProductItem = memo(({ produto, anuncio }) => (
-  <Link to={`/post/${produto.slug}`} className="no-underline">
+  <Link href={`/post/${produto.slug}`} className="no-underline">
     <div className="product-item bg-white rounded-lg h-[181px] md:h-auto overflow-hidden shadow-sm hover:shadow-md transition-all p-3 flex-1 animate-fade-slide-in opacity-0">
       <div className="relative aspect-square bg-gray-50 rounded">
         <img 

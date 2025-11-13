@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Heart, Eye, Sparkles, Star } from 'lucide-react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { base_url } from '../../api/api';
 
 export default function Oferta_diaria() {
@@ -71,7 +71,7 @@ export default function Oferta_diaria() {
         ) : (
           produtos.map((item) => (
             <Link 
-              to={`/produto/${item.produto.slug}`} 
+              href={`/produto/${item.produto.slug}`} 
               key={item.anuncio.id}
               className="snap-start flex-none w-[280px] md:w-[300px] transform transition-all duration-300 hover:scale-[1.02]"
             >

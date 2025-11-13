@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Clock, Tag, ArrowRight, Eye } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 
 function CyclingAdCard({ ads }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
-  const navigate=useNavigate()
+  const router = useRouter()
 
   useEffect(() => {
     if (ads.length <= 1) return;
@@ -95,7 +95,7 @@ function CyclingAdCard({ ads }) {
           <button className="w-full px-6 py-3 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-lg
            text-black font-bold flex items-center justify-center hover:from-yellow-500 hover:to-yellow-700 transition-all
             duration-300" onClick={()=>{
-              navigate(`/product/${produto?.slug}`)
+              router.push(`/product/${produto?.slug}`)
             }}>
             Ver Detalhes
             <ArrowRight className="ml-2 w-5 h-5" />

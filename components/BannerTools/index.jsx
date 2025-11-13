@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Sparkles, Zap, Car, Smartphone, Bike } from 'lucide-react';
 import { ProvinceDropdown } from '../dropdown/province';
 
@@ -27,14 +27,14 @@ export default function BannerTools() {
           </div>
           <div className="grid grid-cols-2 gap-2">
             <Link 
-              to="melhores-boladas" 
+              href="/melhores-boladas" 
               className="flex items-center justify-center gap-1.5 px-3 py-2 bg-violet-50/70 rounded-lg text-violet-600"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span className="text-xs font-medium">Melhores Boladas</span>
             </Link>
             <Link 
-              to="melhores-boladas" 
+              href="/melhores-boladas" 
               className="flex items-center justify-center gap-1.5 px-3 py-2 bg-orange-50/70 rounded-lg text-orange-600"
             >
               <Zap className="w-3.5 h-3.5" />

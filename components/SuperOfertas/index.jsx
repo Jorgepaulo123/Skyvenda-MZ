@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowRight, Eye, Clock } from 'lucide-react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 // Componente para formatar o preço
 const formatPrice = (price) => {
@@ -30,7 +30,7 @@ const TimeRemaining = ({ expiryDate }) => {
 // Componente de item de produto
 const ProductItem = ({ produto, anuncio }) => (
   <Link 
-    to={`/post/${produto.slug}`} 
+    href={`/post/${produto.slug}`} 
     className="block bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
   >
     <div className="relative aspect-square">
@@ -129,7 +129,7 @@ const SuperOfertas = () => {
           <p className="text-sm text-gray-600">Ofertas diárias especiais</p>
         </div>
         <Link 
-          to="/ofertas-diarias" 
+          href="/ofertas-diarias" 
           className="flex items-center gap-1 text-indigo-600 hover:text-indigo-700 text-sm font-medium"
         >
           Ver todas
