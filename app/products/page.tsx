@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/AuthContext";
 import { HomeContext } from "@/context/HomeContext";
-import api from "@/api/api";
+import { base_url } from "@/api/api";
 import { useToast } from "@/hooks/use-toast";
 import { ProductCardSkeleton2 } from "@/components/skeleton/productcardskeleton2";
 
@@ -61,10 +61,11 @@ export default function ProductsPage() {
       }
       try {
         setLoading(true);
-        const res = await api.get(`/produtos/produtos/?skip=0&limit=20`, {
-          headers: { Authorization: `Bearer ${token}` },
+        const res = await fetch(`${base_url}/produtos/produtos/?skip=0&limit=20`, {
+          headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
         });
-        const list = Array.isArray(res?.data?.produtos) ? res.data.produtos : [];
+        const data = await res.json();
+        const list = Array.isArray((data as any)?.produtos) ? (data as any).produtos : [];
         if (!cancelled) addProducts(list);
       } catch (err: any) {
         console.error("Erro ao buscar produtos:", err);
