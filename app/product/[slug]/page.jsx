@@ -20,7 +20,6 @@ import { AdsColumn } from '@/components/ads/ads_column';
 import DOMPurify from 'dompurify';
 import { useCallback } from 'react';
 import PinModal from '@/components/modals/PinModal';
-// Importações necessárias já incluídas acima
 
 // util polyfill to avoid crashing if image error
 const fallbackImg="https://skyvenda-mz.vercel.app/avatar.png";
@@ -125,9 +124,20 @@ const ProductSkeleton = () => (
             <div className="animate-pulse">
               <div className="h-6 w-32 bg-gray-200 rounded mb-4" />
               <div className="space-y-4">
+                {/* skeleton items ... */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+export default function ProductPage() {
+  const params = useParams();
   const slug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug;
-  return <ProductPageClient slug={slug} />;
-}
+
   const { toast } = useToast();
   // router from next/navigation is used instead of navigate
   const [isCommenting,setIsCommenting]=useState(false)
