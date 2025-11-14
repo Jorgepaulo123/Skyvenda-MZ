@@ -1,4 +1,8 @@
 import type { AxiosInstance } from 'axios';
 
 export declare const base_url: string;
-export declare const api: AxiosInstance;
+
+declare const api: AxiosInstance;
+export default api;
+
+export { api };
