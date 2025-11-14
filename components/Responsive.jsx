@@ -1,16 +1,22 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import SponsoredProductCard from './SponsoredProductCard';
 const ResponsiveComponent = ({ index, adsData }) => {
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 300);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   // Atualiza a largura da tela
   useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= 300);
+    // window só existe no cliente
+    const compute = () => {
+      if (typeof window !== 'undefined') {
+        setIsSmallScreen(window.innerWidth <= 300);
+      }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    compute();
+    window.addEventListener('resize', compute);
+    return () => window.removeEventListener('resize', compute);
   }, []);
 
   return (
