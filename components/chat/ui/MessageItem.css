@@ -1,0 +1,64 @@
+/* Estilos para o componente MessageItem */
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Estilo para o player de áudio durante reprodução */
+.audio-playing .progress-bar {
+  transition: width 0.2s linear;
+}
+
+/* Estilos para o visualizador de imagem */
+.image-viewer-overlay {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.image-viewer-content {
+  animation: scaleIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Estilos para as bolhas de mensagem */
+.message-bubble {
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.message-bubble:hover {
+  transform: translateY(-1px);
+}
+
+.message-bubble img {
+  transition: transform 0.2s ease;
+}
+
+.message-bubble img:hover {
+  transform: scale(1.02);
+}

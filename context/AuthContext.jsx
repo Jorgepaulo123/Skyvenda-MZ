@@ -179,8 +179,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, [isAuthenticated, user, loading]);
 
-  // Exibe nada enquanto a autenticação é verificada (Next.js client)
-  if (loading) return null;
+  // O loader global é controlado fora deste provider (AppGate)
 
   // Ativar conta PRO
   const activatePro = async () => {

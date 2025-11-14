@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState } from 'react';
 
 const LoadingContext = createContext({
   isLoading: true,
-  setIsLoading: () => {},
+  setIsLoading: (_v) => {},
 });
 
 export const useLoading = () => useContext(LoadingContext);

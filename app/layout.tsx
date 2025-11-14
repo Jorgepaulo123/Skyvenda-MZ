@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "../components/Providers";
+import AppGate from "../components/AppGate";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +27,9 @@ export default function RootLayout({
         className={`${inter.className} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          {children}
+          <AppGate>
+            {children}
+          </AppGate>
         </Providers>
       </body>
     </html>

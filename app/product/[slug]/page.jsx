@@ -125,35 +125,9 @@ const ProductSkeleton = () => (
             <div className="animate-pulse">
               <div className="h-6 w-32 bg-gray-200 rounded mb-4" />
               <div className="space-y-4">
-                {[1,2,3].map((i) => (
-                  <div key={i} className="h-32 bg-gray-200 rounded-lg" />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-export default function ProductPage() {
-  const [currentImage, setCurrentImage] = useState(0);
-  const [isCommentsOpen, setIsCommentsOpen] = useState(false);
-  const [quantity, setQuantity] = useState(1);
-  const [isLiked, setIsLiked] = useState(false);
-  const [likesCount, setLikesCount] = useState(0);
-  const router = useRouter();
-  const params = useParams();
   const slug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug;
-  const [comment, setComment] = useState('');
-  const { loading, produtos, addOrUpdateProduto, ads } = useContext(HomeContext);
-  const { user, isAuthenticated, token } = useContext(AuthContext);
-  const [product, setProduct] = useState(null);
-  const [loading2, setLoading2] = useState(loading);
-  const [loadingPedido, setLoadingpedido] = useState(false);
-  const [isMyProduct, setIsMyProduct] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
+  return <ProductPageClient slug={slug} />;
+}
   const { toast } = useToast();
   // router from next/navigation is used instead of navigate
   const [isCommenting,setIsCommenting]=useState(false)

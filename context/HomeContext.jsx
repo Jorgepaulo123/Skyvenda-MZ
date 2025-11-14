@@ -10,7 +10,7 @@ const HomeProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [loaded, setLoaded] = useState(false);
   const [produtos, setProdutos] = useState([]);
-  const [user_id, setUserID] = useState(localStorage.getItem('user_id') || 0);
+  const [user_id, setUserID] = useState(0);
   const { setIsLoading } = useLoading();
   const [firstTime, setFirstTime] = useState(true);
   const [myproducts,setMyProducts] = useState([]);
@@ -20,6 +20,15 @@ const HomeProvider = ({ children }) => {
   const[ads,setAds]=useState([])
   const [newMessage,setNewMessage]=useState(0)
   const [chats, setChats] = useState([]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const id = window.localStorage.getItem('user_id');
+        setUserID(id || 0);
+      } catch {}
+    }
+  }, []);
 
 
   // Função genérica para adicionar produtos de uma província
