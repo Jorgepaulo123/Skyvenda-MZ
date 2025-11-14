@@ -1,5 +1,5 @@
+"use client";
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import api from '../../../api/api';
 import { Upload, User, MapPin, Phone, Calendar, ArrowLeft, ArrowRight } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';

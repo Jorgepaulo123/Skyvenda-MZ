@@ -1,20 +1,19 @@
+"use client";
 import { ClipboardList, DotSquare, Eye, Grid, Heart, Info, Kanban, Loader, Megaphone, MessageCircle, MoreHorizontal, Settings, User2 } from 'lucide-react';
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom';
+import Link from 'next/link';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../api/api';
 import { HomeContext } from '../../context/HomeContext';
 import { base_url } from '../../api/api';
-import Pedidos from '../pedidos';
 
 export default function Profile() {
     const [hasProfile,setHasProfile]=useState(false);
     const [isMyProfile,setIsMyProfile]=useState(false);
     const [userProfile,setUserProfile]=useState("")
-    const [tabSelected,setTabSelected]=useState('posts')
+    const [tabSelected,setTabSelected]=useState('products')
     const {user,token}=useAuth()
-    const { username } = useParams();
-    const location = useLocation();
+    const [username, setUsername] = useState(null);
     const [loading,setLoading]=useState(true)
     const { myproducts, addProducts } = useContext(HomeContext);
     const [products,setProducts]=useState([])
@@ -39,47 +38,31 @@ export default function Profile() {
     useEffect(()=>{
         // Scroll to top when component mounts
         window.scrollTo(0, 0);
-        
-        //primeiro verificar se o user do contexto e o mesmo acessado
-        if(user?.username==username){
-            console.log(username)
+
+        // Determine username and profile context
+        if (user?.username) {
+            setUsername(user.username);
             setLoading(false)
             setHasProfile(true)
             setIsMyProfile(true)
             setUserProfile(user)
-            
-        }else{
-            //ja que o user nao tem no context vamos ter que buscar 
-            api.get(`/usuario/perfil/${username}`).then(res=>{
-                setIsMyProfile(false)
-                setHasProfile(true)
-                setUserProfile(res.data)
-                setIsPublic(true)
-            }).catch(err=>{
-                setIsMyProfile(false)
-                setHasProfile(false)
-            }).finally(()=>{
-                setLoading(false)
-            })
-            
         }
+
         if (user?.perfil) {
             setPreviewImage(`${user.perfil}`);
           }
           
-    },[])
+    },[user])
 
-    useState(()=>{
+    useEffect(()=>{
+        if(!username) return;
         api.get(`/usuario/${username}/produtos`).then(res=>{
             setProducts(res.data.produtos)
             setLoadingproducts(false)
-        })
-    },[])
+        }).catch(()=> setLoadingproducts(false))
+    },[username])
 
-    useEffect(()=>{
-        setTabSelected(location.pathname)
-
-    },[location])
+    // Local tab state only (no router path dependency)
     
     useEffect(() => {
         if (!token && myproducts) return;
@@ -182,7 +165,7 @@ export default function Profile() {
                 <h1 className="text-2xl font-semibold">Perfil não está disponível</h1>
                 <p>A ligação pode não estar a funcionar ou o perfil pode ter sido removido.</p>
                 <Link 
-                    to="/" 
+                    href="/" 
                     className="py-3 px-4 bg-indigo-400 rounded-md hover:bg-indigo-600 text-white font-semibold"
                 >
                     Ver mais na SkyVenda MZ
@@ -233,11 +216,11 @@ export default function Profile() {
                                     <div className="w-full space-y-2 ">
                                         <div className="flex py-2 md:h-[40px] gap-4 items-center flex-1 ">
                                             <span className='text-2xl'>{userProfile.username}</span>
-                                            <Link to={'/accounts/edit'} className='bg-gray-200 py-2 px-4 rounded-md hover:bg-gray-300'>Editar Perfil</Link>
-                                            <Link className='bg-gray-200 py-2 px-4 rounded-md hover:bg-gray-300'>Ver Publicaoes</Link>
-                                            <Link>
+                                            <Link href={'/accounts/edit'} className='bg-gray-200 py-2 px-4 rounded-md hover:bg-gray-300'>Editar Perfil</Link>
+                                            <button className='bg-gray-200 py-2 px-4 rounded-md hover:bg-gray-300'>Ver Publicaoes</button>
+                                            <button>
                                                 <Settings className='hover:animate-spin'/>
-                                            </Link>
+                                            </button>
                                         </div>
 
                                         <div className="flex py-2 md:h-[40px] gap-4 items-center flex-1 ">
@@ -256,14 +239,14 @@ export default function Profile() {
                                 {/* tabs */}
                                 <div className="flex-1 gap-4">
                                     <div className="flex gap-8 justify-center items-center">
-                                    <Link  to={`/${username}`} className={`uppercase transition-all duration-300 gap-2 py-3 flex text-gray-500 ${tabSelected==`/${username}` && "font-bold text-gray-900 border-t-2  border-t-gray-900 "}`}><Grid/>Produtos</Link>
-                                    <Link to={`/${username}/orders`} className={`uppercase transition-all duration-100 gap-2 py-3 flex text-gray-500 ${tabSelected==`/${username}/orders` && "font-bold text-gray-900 border-t-2  border-t-gray-900"}`}><ClipboardList/>Pedidos</Link>
-                                    <Link  to={`/${username}/friends`}className={`uppercase transition-all duration-100 gap-2 py-3 flex text-gray-500 ${tabSelected==`/${username}/friends` && "font-bold text-gray-900 border-t-2  border-t-gray-900"}`}><User2/>Amigos</Link>
-                                    <Link to={`/${username}/ads`} className={`uppercase transition-all duration-100  gap-2 py-3 flex text-gray-500 ${tabSelected==`/${username}/ads` && "font-bold text-gray-900 border-t-2  border-t-gray-900"}`}><Megaphone/>Anúncios</Link>
+                                    <button onClick={()=>setTabSelected('products')} className={`uppercase transition-all duration-300 gap-2 py-3 flex text-gray-500 ${tabSelected==='products' && "font-bold text-gray-900 border-t-2  border-t-gray-900 "}`}><Grid/>Produtos</button>
+                                    <button onClick={()=>setTabSelected('orders')} className={`uppercase transition-all duration-100 gap-2 py-3 flex text-gray-500 ${tabSelected==='orders' && "font-bold text-gray-900 border-t-2  border-t-gray-900"}`}><ClipboardList/>Pedidos</button>
+                                    <button onClick={()=>setTabSelected('friends')} className={`uppercase transition-all duration-100 gap-2 py-3 flex text-gray-500 ${tabSelected==='friends' && "font-bold text-gray-900 border-t-2  border-t-gray-900"}`}><User2/>Amigos</button>
+                                    <button onClick={()=>setTabSelected('ads')} className={`uppercase transition-all duration-100  gap-2 py-3 flex text-gray-500 ${tabSelected==='ads' && "font-bold text-gray-900 border-t-2  border-t-gray-900"}`}><Megaphone/>Anúncios</button>
                                     </div>
                                     {/* tabs content body */}
                                     <div className="flex-1">
-                                        {tabSelected==`/${username}` &&(
+                                        {tabSelected==='products' &&(
                                             <div className="grid grid-cols-3 gap-4">
                                                 {loadingProducts ?(
                                                 <>
@@ -317,8 +300,8 @@ export default function Profile() {
                                             )}
                                             </div> 
                                         )}
-                                        {tabSelected==`/${username}/orders`&&(
-                                            <Pedidos/>
+                                        {tabSelected==='orders'&&(
+                                            <div className="p-4 text-gray-600">Pedidos em breve</div>
                                         )}
                                     </div>
                                 </div>
@@ -347,12 +330,12 @@ export default function Profile() {
 
                                             <div className="flex py-1 md:h-[40px] gap-4 items-center flex-1 ">
                                                 <span className='text-2xl'>{userProfile.username}</span>
-                                                <Link className='bg-gray-200 py-2 px-4 rounded-md hover:bg-gray-300'>Seguir</Link>
-                                                <Link className='bg-gray-200 py-2 px-4 rounded-md hover:bg-gray-300'>Envier Mensagem</Link>
-                                                <Link>
+                                                <button className='bg-gray-200 py-2 px-4 rounded-md hover:bg-gray-300'>Seguir</button>
+                                                <button className='bg-gray-200 py-2 px-4 rounded-md hover:bg-gray-300'>Envier Mensagem</button>
+                                                <button>
                                                     {/* <Kanban/> */}
                                                     <MoreHorizontal/>
-                                                </Link>
+                                                </button>
                                             </div>
 
                                             <div className="flex py-2 md:h-[40px] gap-4 items-center flex-1 ">
@@ -371,13 +354,13 @@ export default function Profile() {
                                     {/* tabs */}
                                     <div className="flex-1 gap-4">
                                         <div className="flex gap-8 justify-center items-center">
-                                        <Link  to={`/${username}`} className={`uppercase transition-all duration-300 gap-2 py-3 flex text-gray-500 ${tabSelected==`/${username}` && "font-bold text-gray-900 border-t-2  border-t-gray-900 "}`}><Grid/>Produtos</Link>
-                                        <Link  to={`/${username}/friends`}className={`uppercase transition-all duration-100 gap-2 py-3 flex text-gray-500 ${tabSelected==`/${username}/friends` && "font-bold text-gray-900 border-t-2  border-t-gray-900"}`}><User2/>Amigos</Link>
-                                        <Link to={`/${username}/ads`} className={`uppercase transition-all duration-100  gap-2 py-3 flex text-gray-500 ${tabSelected==`/${username}/ads` && "font-bold text-gray-900 border-t-2  border-t-gray-900"}`}><Megaphone/>Anúncios</Link>
+                                        <button onClick={()=>setTabSelected('products')} className={`uppercase transition-all duration-300 gap-2 py-3 flex text-gray-500 ${tabSelected==='products' && "font-bold text-gray-900 border-t-2  border-t-gray-900 "}`}><Grid/>Produtos</button>
+                                        <button onClick={()=>setTabSelected('friends')} className={`uppercase transition-all duration-100 gap-2 py-3 flex text-gray-500 ${tabSelected==='friends' && "font-bold text-gray-900 border-t-2  border-t-gray-900"}`}><User2/>Amigos</button>
+                                        <button onClick={()=>setTabSelected('ads')} className={`uppercase transition-all duration-100  gap-2 py-3 flex text-gray-500 ${tabSelected==='ads' && "font-bold text-gray-900 border-t-2  border-t-gray-900"}`}><Megaphone/>Anúncios</button>
                                         </div>
                                         {/* tabs content body */}
                                         <div className="flex-1">
-                                            {tabSelected==`/${username}` &&(
+                                            {tabSelected==='products' &&(
                                                 <div className="grid grid-cols-3 gap-4">
                                                     {loadingProducts ?(
                                                     <>

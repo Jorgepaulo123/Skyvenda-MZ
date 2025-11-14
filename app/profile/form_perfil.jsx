@@ -1,12 +1,11 @@
+"use client";
 import React, { useContext } from "react";
 import { VerificationStatus } from "./ui/VerificationStatus";
 import { AuthContext } from "../../context/AuthContext";
 import VerificationSkeleton from "./ui/VerificationSkeleton";
-import { useNavigate } from "react-router-dom";
 
 export default function Form_Perfil() {
     const { user,isAuthenticated } = useContext(AuthContext);
-    const navigate=useNavigate()
 
     // Se `user` não estiver disponível, exibe um carregamento ou nada
     if (!user) {
