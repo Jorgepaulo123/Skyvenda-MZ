@@ -12,9 +12,16 @@ export const PROVINCIAS = [
     'Maputo Cidade',
   ];
 
-  export const base_url = window.location.hostname === 'localhost' || window.location.hostname === '192.168.1.63' 
-    ? 'http://localhost:5173'
-    : 'https://skyvenda-mz.vercel.app';
+  // Evitar acesso a window no lado do servidor (SSR)
+  let resolvedBaseUrl = 'https://skyvenda-mz.vercel.app';
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname;
+    if (host === 'localhost' || host === '192.168.1.63') {
+      resolvedBaseUrl = 'http://localhost:5173';
+    }
+  }
+
+  export const base_url = resolvedBaseUrl;
   
   export const DISTRITOS = {
     'Maputo Cidade': ['KaMpfumo', 'Nlhamankulu', 'KaMaxakeni', 'KaMavota', 'KaMubukwana', 'KaTembe', 'KaNyaka'],
