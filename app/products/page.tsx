@@ -153,7 +153,7 @@ export default function ProductsPage() {
                 placeholder="Pesquisar produtos..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="border rounded-lg px-4 py-2 text-sm w-64 focus:ring focus:ring-blue-300"
+                className="border border-indigo-200 rounded-lg px-4 py-2 text-sm w-64 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400"
               />
             </div>
             <div className="md:hidden mt-2">
@@ -162,11 +162,11 @@ export default function ProductsPage() {
                 placeholder="Pesquisar produtos..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring focus:ring-blue-300"
+                className="w-full border border-indigo-200 rounded-lg px-3 py-2 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400"
               />
             </div>
-            <div className="mt-3 -mx-1 overflow-x-auto no-scrollbar">
-              <div className="flex items-center gap-2 px-1">
+            <div className="md:mt-3 md:static sticky top-[48px] z-20 bg-white -mx-4 px-4 py-2 border-b overflow-x-auto no-scrollbar">
+              <div className="flex items-center gap-2">
                 {[
                   { key: 'todos', label: `Todos (${counts.todos})` },
                   { key: 'activos', label: `Activos (${counts.activos})` },
