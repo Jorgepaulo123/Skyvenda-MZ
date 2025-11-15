@@ -377,7 +377,7 @@ export default function MobileMenu() {
                   </Link>
 
                   <Link
-                    href="/pedidos"
+                    href="/orders"
                     className="rounded-xl p-4 border border-gray-200 flex items-center justify-between w-full transition-all hover:bg-indigo-50 hover:border-indigo-200"
                   >
                     <div className="flex items-center gap-3">
@@ -389,7 +389,7 @@ export default function MobileMenu() {
                     <div className="flex items-center">
                       {loadingOrders ? (
                         <div className="w-5 h-5 border-2 border-gray-300 border-t-indigo-500 rounded-full animate-spin"></div>
-                      ) : (no
+                      ) : (
                         <span className="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
                           {orderCount}
                         </span>
