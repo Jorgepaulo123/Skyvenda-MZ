@@ -105,7 +105,7 @@ export default function MobileMenu() {
   return (
     <div className="fixed inset-0 bg-white max_z_index_2xl">
       {/* Fixed Header */}
-      <div className="fixed top-0 left-0 right-0 z-10 flex items-center justify-between p-4 bg-white border-b border-gray-200 shadow-sm">
+      <div className="fixed top-0 left-0 right-0 z-10 flex items-center justify-between px-4 py-2 bg-white">
         <div className="flex items-center gap-2">
           <button
             onClick={() => router.back()}
@@ -116,7 +116,7 @@ export default function MobileMenu() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h1 className="text-xl font-semibold text-gray-800">Menu</h1>
+          <h1 className="text-base font-semibold text-gray-800">Menu</h1>
         </div>
         <button
           className="p-2 text-gray-700 rounded-full hover:bg-gray-100 transition-colors"
@@ -129,7 +129,7 @@ export default function MobileMenu() {
       </div>
 
       {/* Scrollable Content Container */}
-      <div className="h-full pt-[72px] overflow-y-auto">
+      <div className="h-full pt-[56px] overflow-y-auto">
         <div className="p-4 space-y-4">
           {isAuthenticated ? (
             <>
