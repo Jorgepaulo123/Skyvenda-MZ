@@ -68,7 +68,15 @@ export default function NewPostDialog({ open, onClose, onPostCreated }: NewPostD
       <div className="absolute inset-x-0 top-0 bottom-0 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[560px] md:h-[620px] bg-white rounded-none md:rounded-2xl shadow-xl flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-          <button className="px-2 py-1 text-gray-700 hover:bg-gray-100 rounded" onClick={!busy ? onClose : undefined}>Fechar</button>
+          <button
+            className="p-2 text-gray-700 hover:bg-gray-100 rounded-full"
+            aria-label="Voltar"
+            onClick={!busy ? onClose : undefined}
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
           <div className="font-semibold text-gray-900">Criar publicação</div>
           <button
             className={`px-3 py-1.5 rounded-2xl text-white ${busy || !text.trim() ? "bg-indigo-300" : "bg-indigo-600 hover:bg-indigo-700"}`}
