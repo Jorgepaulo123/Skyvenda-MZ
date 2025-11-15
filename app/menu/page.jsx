@@ -193,7 +193,7 @@ export default function MobileMenu() {
                 <div className="flex items-center justify-between">
                   <h2 className="font-semibold text-gray-800">Nhonguistas e Lojas</h2>
                   <Link
-                    href="/nhonguistas"
+                    href="/sellers"
                     className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
                   >
                     Ver todos
@@ -258,7 +258,7 @@ export default function MobileMenu() {
                       </Link>
                     ))}
                     <Link
-                      href="/nhonguistas"
+                      href="/sellers"
                       className="block w-full text-center py-2 text-indigo-600 hover:text-indigo-800 font-medium"
                     >
                       Ver mais nhonguistas
@@ -281,7 +281,7 @@ export default function MobileMenu() {
                     </svg>
                     <p className="text-gray-500">Nenhum nhonguista encontrado</p>
                     <Link
-                      href="/nhonguistas"
+                      href="/sellers"
                       className="mt-2 inline-block text-indigo-600 hover:text-indigo-800 font-medium"
                     >
                       Explorar nhonguistas
@@ -296,7 +296,7 @@ export default function MobileMenu() {
                   <CardSkeleton />
                 ) : (
                   <Link
-                    href="/produtos"
+                    href="/products"
                     className="bg-indigo-50 rounded-xl p-4 border border-indigo-200 flex flex-col items-center justify-center text-center transition-all active:scale-95 hover:-translate-y-1 hover:shadow-md"
                   >
                     <h1 className="text-2xl font-bold text-indigo-600">{productCount}</h1>
@@ -308,7 +308,7 @@ export default function MobileMenu() {
                   <CardSkeleton />
                 ) : (
                   <Link
-                    href="/pedidos"
+                    href="/orders"
                     className="bg-indigo-50 rounded-xl p-4 border border-indigo-200 flex flex-col items-center justify-center text-center transition-all active:scale-95 hover:-translate-y-1 hover:shadow-md"
                   >
                     <h1 className="text-2xl font-bold text-indigo-600">{orderCount}</h1>
@@ -317,7 +317,7 @@ export default function MobileMenu() {
                 )}
 
                 <Link
-                  href="/mensagens"
+                  href="/chat"
                   className="bg-indigo-50 rounded-xl p-4 border border-indigo-200 flex flex-col items-center justify-center text-center transition-all active:scale-95 hover:-translate-y-1 hover:shadow-md"
                 >
                   <h1 className="text-2xl font-bold text-indigo-600">0</h1>
@@ -325,7 +325,7 @@ export default function MobileMenu() {
                 </Link>
 
                 <Link
-                  href="/amigos"
+                  href="/friends"
                   className="bg-indigo-50 rounded-xl p-4 border border-indigo-200 flex flex-col items-center justify-center text-center transition-all active:scale-95 hover:-translate-y-1 hover:shadow-md"
                 >
                   <h1 className="text-2xl font-bold text-indigo-600">0</h1>
@@ -353,7 +353,7 @@ export default function MobileMenu() {
                   </Link>
 
                   <Link
-                    href="/produtos"
+                    href="/products"
                     className="rounded-xl p-4 border border-gray-200 flex items-center justify-between w-full transition-all hover:bg-indigo-50 hover:border-indigo-200"
                   >
                     <div className="flex items-center gap-3">
@@ -430,7 +430,7 @@ export default function MobileMenu() {
                   </Link>
 
                   <Link
-                    href="/nhonguistas"
+                    href="/sellers"
                     className="rounded-xl p-4 border border-gray-200 flex items-center justify-between w-full transition-all hover:bg-indigo-50 hover:border-indigo-200"
                   >
                     <div className="flex items-center gap-3">
