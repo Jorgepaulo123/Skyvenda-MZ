@@ -137,7 +137,7 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="p-4 overflow-hidden">
+    <div className="py-4 px-2 overflow-hidden">
       {/* Mobile Header */}
       <div className="md:hidden -mt-4 -mx-4 mb-2">
         <MobileHeader title="Meus Produtos" onBack={() => router.back()} right={null} />
