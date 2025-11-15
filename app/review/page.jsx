@@ -7,7 +7,7 @@ import api from "../../api/api";
 // Esta é a versão Next.js da tela de verificação/revisão baseada no teu código React Native.
 // Ajustado para web, com selects e upload de imagem usando input type="file".
 
-export default function VerificacaoPage() {
+export default function ReviewPage() {
   const router = useRouter();
   const { user } = useContext(AuthContext);
 
