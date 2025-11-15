@@ -9,22 +9,27 @@ import { ProductCardSkeleton2 } from "@/components/skeleton/productcardskeleton2
 import MobileHeader from "@/components/ui/MobileHeader";
 
 // Minimal local product card for this page
-function ProductCard({ product, onEdit, onTurbo }: { product: any; onEdit: (p:any)=>void; onTurbo: (p:any)=>void }) {
+function ProductCard({ product, onEdit, onTurbo }: { product: any; onEdit: (p: any) => void; onTurbo: (p: any) => void }) {
   const title = product?.title || product?.nome || "Sem título";
   const price = product?.price ?? product?.preco;
   const displayPrice = typeof price === "number" ? new Intl.NumberFormat('pt-MZ', { style: 'currency', currency: 'MZN' }).format(price) : "—";
+
   return (
-    <div className="border rounded-lg p-3 bg-white">
+    <div className="border border-gray-200 rounded-xl p-3 bg-white shadow-sm hover:shadow-md transition-shadow">
       <div className="flex flex-col md:flex-row md:items-center md:gap-3">
         {product?.thumb ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={product.thumb}
             alt={title}
-            className="w-full h-40 object-cover rounded md:w-16 md:h-16 md:shrink-0"
+            className="w-full h-40 object-cover rounded-lg md:w-16 md:h-16 md:shrink-0"
           />
         ) : (
-          <div className="w-full h-40 bg-gray-200 rounded md:w-16 md:h-16" />
+          <div className="w-full h-40 bg-gray-100 rounded-lg md:w-16 md:h-16 flex items-center justify-center">
+            <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 6h.01" />
+            </svg>
+          </div>
         )}
         <div className="flex-1 min-w-0 mt-2 md:mt-0">
           <div className="text-base md:text-sm font-semibold truncate">{title}</div>
@@ -34,13 +39,13 @@ function ProductCard({ product, onEdit, onTurbo }: { product: any; onEdit: (p:an
       <div className="mt-3 grid grid-cols-2 gap-2 md:flex md:gap-2 md:mt-2">
         <button
           onClick={() => onEdit(product)}
-          className="col-span-1 px-3 py-2 md:py-1.5 text-sm md:text-xs rounded bg-indigo-600 text-white hover:bg-indigo-700"
+          className="col-span-1 px-3 py-2 md:py-1.5 text-sm md:text-xs rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
         >
           Editar
         </button>
         <button
           onClick={() => onTurbo(product)}
-          className="col-span-1 px-3 py-2 md:py-1.5 text-sm md:text-xs rounded bg-amber-600 text-white hover:bg-amber-700"
+          className="col-span-1 px-3 py-2 md:py-1.5 text-sm md:text-xs rounded-lg bg-amber-600 text-white hover:bg-amber-700 transition-colors"
         >
           Turbinar
         </button>
@@ -85,7 +90,11 @@ export default function ProductsPage() {
       } catch (err: any) {
         console.error("Erro ao buscar produtos:", err);
         if (!cancelled) addProducts([]);
-        toast({ title: "Erro ao buscar produtos", description: err?.userMessage || err?.message || "Tente novamente." , variant: "destructive"});
+        toast({ 
+          title: "Erro ao buscar produtos", 
+          description: err?.userMessage || err?.message || "Tente novamente.", 
+          variant: "destructive"
+        });
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -137,15 +146,21 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="py-4 px-2 overflow-hidden">
+    <div className="py-4 px-2 overflow-hidden bg-gray-50">
       {/* Mobile Header */}
-      <div className="md:hidden -mt-4 -mx-4 mb-2">
-        <MobileHeader title="Meus Produtos" onBack={() => router.back()} right={null} />
+      <div className="md:hidden -mx-4 mb-2">
+        <MobileHeader 
+          title="Meus Produtos" 
+          onBack={() => router.back()} 
+          right={null} 
+        />
       </div>
-      {page === 1 && (
-        <div className="bg-white md:rounded-lg md:shadow md:h-[calc(100vh-100px)] md:overflow-y-hidden">
 
-          <div className="p-4 border-b">
+      {page === 1 && (
+        <div className="bg-white rounded-xl shadow-sm md:h-[calc(100vh-100px)] flex flex-col">
+
+          {/* Header Section */}
+          <div className="p-4 border-b border-gray-200">
             <div className="hidden md:flex items-center justify-between gap-4">
               <h2 className="text-lg font-semibold text-gray-900">Meus Produtos</h2>
               <input
@@ -153,7 +168,7 @@ export default function ProductsPage() {
                 placeholder="Pesquisar produtos..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="border border-indigo-200 rounded-lg px-4 py-2 text-sm w-64 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400"
+                className="border border-gray-200 rounded-lg px-4 py-2 text-sm w-64 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400"
               />
             </div>
             <div className="md:hidden mt-2">
@@ -162,10 +177,12 @@ export default function ProductsPage() {
                 placeholder="Pesquisar produtos..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full border border-indigo-200 rounded-lg px-3 py-2 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400"
               />
             </div>
-            <div className="md:mt-3 md:static sticky top-[48px] z-20 bg-white -mx-4 px-4 py-2 border-b overflow-x-auto no-scrollbar">
+
+            {/* Tabs Fixed Section */}
+            <div className="md:mt-3 md:static sticky top-[48px] z-20 bg-white -mx-4 px-4 py-2 border-b border-gray-200 overflow-x-auto no-scrollbar">
               <div className="flex items-center gap-2">
                 {[
                   { key: 'todos', label: `Todos (${counts.todos})` },
@@ -178,7 +195,7 @@ export default function ProductsPage() {
                     onClick={() => setStatusFilter(tab.key)}
                     className={`shrink-0 text-xs px-3 py-1.5 rounded-full border transition-colors ${
                       statusFilter === tab.key
-                        ? 'bg-blue-600 text-white border-blue-600'
+                        ? 'bg-indigo-600 text-white border-indigo-600'
                         : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
                     }`}
                   >
@@ -188,59 +205,97 @@ export default function ProductsPage() {
               </div>
             </div>
           </div>
-          {/* Mobile list */}
-          <div className="md:hidden p-4 space-y-2">
-            {loading ? (
-              [...Array(8)].map((_, i) => <ProductCardSkeleton2 key={i} />)
-            ) : filteredProducts.length === 0 ? (
-              <div className="flex justify-center items-center">
-                <p className="text-gray-500">Nenhum produto encontrado</p>
-              </div>
-            ) : (
-              filteredProducts.map((product: any) => (
-                <ProductCard key={product.id} product={product} onEdit={handleEdit} onTurbo={handleTurbo} />
-              ))
-            )}
-          </div>
 
-          {/* Desktop grid */}
-          <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-4 max-h-[calc(100vh-180px)] overflow-y-scroll">
-            {loading ? (
-              [...Array(12)].map((_, i) => <ProductCardSkeleton2 key={i} />)
-            ) : filteredProducts.length === 0 ? (
-              <div className="flex justify-center items-center col-span-full">
-                <p className="text-gray-500">Nenhum produto encontrado</p>
-              </div>
-            ) : (
-              filteredProducts.map((product: any) => (
-                <ProductCard key={product.id} product={product} onEdit={handleEdit} onTurbo={handleTurbo} />
-              ))
-            )}
+          {/* Content Section */}
+          <div className="flex-1 overflow-y-auto no-scrollbar p-4">
+            {/* Mobile List */}
+            <div className="md:hidden space-y-2">
+              {loading ? (
+                [...Array(8)].map((_, i) => <ProductCardSkeleton2 key={i} />)
+              ) : filteredProducts.length === 0 ? (
+                <div className="flex justify-center items-center py-8">
+                  <div className="text-center">
+                    <svg className="w-12 h-12 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9M5 11V9m2 2a2 2 0 104 0V9m6 2a2 2 0 104 0V9m6 2a2 2 0 104 0V9" />
+                    </svg>
+                    <p className="text-gray-500">Nenhum produto encontrado</p>
+                  </div>
+                </div>
+              ) : (
+                filteredProducts.map((product: any) => (
+                  <ProductCard key={product.id} product={product} onEdit={handleEdit} onTurbo={handleTurbo} />
+                ))
+              )}
+            </div>
+
+            {/* Desktop Grid */}
+            <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+              {loading ? (
+                [...Array(12)].map((_, i) => <ProductCardSkeleton2 key={i} />)
+              ) : filteredProducts.length === 0 ? (
+                <div className="flex justify-center items-center col-span-full py-8">
+                  <div className="text-center">
+                    <svg className="w-12 h-12 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9M5 11V9m2 2a2 2 0 104 0V9m6 2a2 2 0 104 0V9m6 2a2 2 0 104 0V9" />
+                    </svg>
+                    <p className="text-gray-500">Nenhum produto encontrado</p>
+                  </div>
+                </div>
+              ) : (
+                filteredProducts.map((product: any) => (
+                  <ProductCard key={product.id} product={product} onEdit={handleEdit} onTurbo={handleTurbo} />
+                ))
+              )}
+            </div>
           </div>
         </div>
       )}
 
       {page === 2 && (
-        <div className="bg-white rounded-lg shadow h-[calc(100vh-100px)] p-4">
+        <div className="bg-white rounded-xl shadow-sm h-[calc(100vh-100px)] p-4 flex flex-col">
           <div className="flex items-center gap-2 mb-4">
-            <button onClick={() => setPage(1)} className="px-3 py-1.5 text-xs rounded bg-gray-100 hover:bg-gray-200">Voltar</button>
+            <button 
+              onClick={() => setPage(1)} 
+              className="px-3 py-1.5 text-xs rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+            >
+              Voltar
+            </button>
             <div className="font-semibold">Editar Produto</div>
           </div>
-          <div className="text-sm text-gray-500">Em breve: editor completo (nome, preço, categoria, imagem)...</div>
-          <div className="mt-3 p-3 bg-gray-50 rounded">{selectedProduct?.title}</div>
+          <div className="flex-1 overflow-y-auto no-scrollbar">
+            <div className="text-sm text-gray-500 mb-4">Em breve: editor completo (nome, preço, categoria, imagem)...</div>
+            {selectedProduct && (
+              <div className="p-3 bg-gray-50 rounded-lg">
+                <h3 className="font-medium">{selectedProduct.title}</h3>
+                <p className="text-xs text-gray-500 mt-1">ID: {selectedProduct.id}</p>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
       {page === 3 && (
-        <div className="bg-white rounded-lg shadow h-[calc(100vh-100px)] p-4">
+        <div className="bg-white rounded-xl shadow-sm h-[calc(100vh-100px)] p-4 flex flex-col">
           <div className="flex items-center gap-2 mb-4">
-            <button onClick={() => setPage(1)} className="px-3 py-1.5 text-xs rounded bg-gray-100 hover:bg-gray-200">Voltar</button>
+            <button 
+              onClick={() => setPage(1)} 
+              className="px-3 py-1.5 text-xs rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+            >
+              Voltar
+            </button>
             <div className="font-semibold">Turbinar Produto</div>
           </div>
-          <div className="text-sm text-gray-500">Em breve: formulário de promoção (duração, posicionamento)...</div>
-          <div className="mt-3 p-3 bg-gray-50 rounded">{selectedProduct?.title}</div>
+          <div className="flex-1 overflow-y-auto no-scrollbar">
+            <div className="text-sm text-gray-500 mb-4">Em breve: formulário de promoção (duração, posicionamento)...</div>
+            {selectedProduct && (
+              <div className="p-3 bg-gray-50 rounded-lg">
+                <h3 className="font-medium">{selectedProduct.title}</h3>
+                <p className="text-xs text-gray-500 mt-1">ID: {selectedProduct.id}</p>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
   );
-}
+    }
