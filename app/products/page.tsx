@@ -14,22 +14,36 @@ function ProductCard({ product, onEdit, onTurbo }: { product: any; onEdit: (p:an
   const price = product?.price ?? product?.preco;
   const displayPrice = typeof price === "number" ? new Intl.NumberFormat('pt-MZ', { style: 'currency', currency: 'MZN' }).format(price) : "—";
   return (
-    <div className="border rounded-lg p-3 bg-white flex flex-col gap-2">
-      <div className="flex items-center gap-3">
+    <div className="border rounded-lg p-3 bg-white">
+      <div className="flex flex-col md:flex-row md:items-center md:gap-3">
         {product?.thumb ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={product.thumb} alt={title} className="w-16 h-16 object-cover rounded" />
+          <img
+            src={product.thumb}
+            alt={title}
+            className="w-full h-40 object-cover rounded md:w-16 md:h-16 md:shrink-0"
+          />
         ) : (
-          <div className="w-16 h-16 bg-gray-200 rounded" />
+          <div className="w-full h-40 bg-gray-200 rounded md:w-16 md:h-16" />
         )}
-        <div className="flex-1 min-w-0">
-          <div className="text-sm font-semibold truncate">{title}</div>
-          <div className="text-xs text-gray-500">{displayPrice}</div>
+        <div className="flex-1 min-w-0 mt-2 md:mt-0">
+          <div className="text-base md:text-sm font-semibold truncate">{title}</div>
+          <div className="text-sm md:text-xs text-gray-500">{displayPrice}</div>
         </div>
       </div>
-      <div className="flex gap-2">
-        <button onClick={() => onEdit(product)} className="px-3 py-1.5 text-xs rounded bg-indigo-600 text-white hover:bg-indigo-700">Editar</button>
-        <button onClick={() => onTurbo(product)} className="px-3 py-1.5 text-xs rounded bg-amber-600 text-white hover:bg-amber-700">Turbinar</button>
+      <div className="mt-3 grid grid-cols-2 gap-2 md:flex md:gap-2 md:mt-2">
+        <button
+          onClick={() => onEdit(product)}
+          className="col-span-1 px-3 py-2 md:py-1.5 text-sm md:text-xs rounded bg-indigo-600 text-white hover:bg-indigo-700"
+        >
+          Editar
+        </button>
+        <button
+          onClick={() => onTurbo(product)}
+          className="col-span-1 px-3 py-2 md:py-1.5 text-sm md:text-xs rounded bg-amber-600 text-white hover:bg-amber-700"
+        >
+          Turbinar
+        </button>
       </div>
     </div>
   );
@@ -129,8 +143,8 @@ export default function ProductsPage() {
         <MobileHeader title="Meus Produtos" onBack={() => router.back()} right={null} />
       </div>
       {page === 1 && (
-        <div className="bg-white rounded-lg shadow h-[calc(100vh-100px)] overflow-y-hidden">
-          
+        <div className="bg-white md:rounded-lg md:shadow md:h-[calc(100vh-100px)] md:overflow-y-hidden">
+
           <div className="p-4 border-b">
             <div className="hidden md:flex items-center justify-between gap-4">
               <h2 className="text-lg font-semibold text-gray-900">Meus Produtos</h2>
@@ -174,7 +188,23 @@ export default function ProductsPage() {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-4 max-h-[calc(100vh-180px)] overflow-y-scroll">
+          {/* Mobile list */}
+          <div className="md:hidden p-4 space-y-2">
+            {loading ? (
+              [...Array(8)].map((_, i) => <ProductCardSkeleton2 key={i} />)
+            ) : filteredProducts.length === 0 ? (
+              <div className="flex justify-center items-center">
+                <p className="text-gray-500">Nenhum produto encontrado</p>
+              </div>
+            ) : (
+              filteredProducts.map((product: any) => (
+                <ProductCard key={product.id} product={product} onEdit={handleEdit} onTurbo={handleTurbo} />
+              ))
+            )}
+          </div>
+
+          {/* Desktop grid */}
+          <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-4 max-h-[calc(100vh-180px)] overflow-y-scroll">
             {loading ? (
               [...Array(12)].map((_, i) => <ProductCardSkeleton2 key={i} />)
             ) : filteredProducts.length === 0 ? (
@@ -183,8 +213,8 @@ export default function ProductsPage() {
               </div>
             ) : (
               filteredProducts.map((product: any) => (
-                <ProductCard key={product.id} product={product} onEdit={handleEdit} onTurbo={handleTurbo} />)
-              )
+                <ProductCard key={product.id} product={product} onEdit={handleEdit} onTurbo={handleTurbo} />
+              ))
             )}
           </div>
         </div>
