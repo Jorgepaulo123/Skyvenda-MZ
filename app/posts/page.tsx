@@ -1,8 +1,9 @@
 "use client";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
 import { base_url } from "../../api/api";
+import MobileHeader from "@/components/ui/MobileHeader";
 
 type PostItem = {
   id: number;
@@ -15,6 +16,7 @@ type PostItem = {
 };
 
 export default function PostsPage() {
+  const router = useRouter();
   const { token, user } = useAuth();
   const [posts, setPosts] = useState<PostItem[]>([]);
   const [page, setPage] = useState(1);
@@ -77,14 +79,7 @@ export default function PostsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="border-b border-gray-200">
-        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
-          <Link href="/" className="text-gray-700 hover:text-gray-900">Voltar</Link>
-          <div className="font-semibold text-gray-900">Minhas Publicações</div>
-          <div className="w-12" />
-        </div>
-      </div>
+      <MobileHeader title="Minhas Publicações" onBack={() => router.back()} right={null} />
 
       <div className="max-w-3xl mx-auto px-4 py-4">
         {posts.length === 0 && loading && (

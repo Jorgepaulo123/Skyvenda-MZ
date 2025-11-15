@@ -6,6 +6,7 @@ import { HomeContext } from "@/context/HomeContext";
 import { base_url } from "@/api/api";
 import { useToast } from "@/hooks/use-toast";
 import { ProductCardSkeleton2 } from "@/components/skeleton/productcardskeleton2";
+import MobileHeader from "@/components/ui/MobileHeader";
 
 // Minimal local product card for this page
 function ProductCard({ product, onEdit, onTurbo }: { product: any; onEdit: (p:any)=>void; onTurbo: (p:any)=>void }) {
@@ -123,14 +124,13 @@ export default function ProductsPage() {
 
   return (
     <div className="p-4 overflow-hidden">
+      {/* Mobile Header */}
+      <div className="md:hidden -mt-4 -mx-4 mb-2">
+        <MobileHeader title="Meus Produtos" onBack={() => router.back()} right={null} />
+      </div>
       {page === 1 && (
         <div className="bg-white rounded-lg shadow h-[calc(100vh-100px)] overflow-y-hidden">
-          <div className="md:hidden sticky top-0 z-20 bg-white border-b px-2 py-2 flex items-center gap-2">
-            <button onClick={() => router.back()} className="h-9 w-9 flex items-center justify-center rounded-full active:scale-95 bg-gray-100 text-gray-700">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5"><path fillRule="evenodd" d="M9.53 4.47a.75.75 0 010 1.06L4.81 10.25H21a.75.75 0 010 1.5H4.81l4.72 4.72a.75.75 0 11-1.06 1.06l-6-6a.75.75 0 010-1.06l6-6a.75.75 0 011.06 0z" clipRule="evenodd" /></svg>
-            </button>
-            <div className="text-base font-semibold">Meus Produtos</div>
-          </div>
+          
           <div className="p-4 border-b">
             <div className="hidden md:flex items-center justify-between gap-4">
               <h2 className="text-lg font-semibold text-gray-900">Meus Produtos</h2>

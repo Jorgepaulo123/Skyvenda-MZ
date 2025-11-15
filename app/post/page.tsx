@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { base_url } from "@/api/api";
 import { useAuth } from "@/context/AuthContext";
+import MobileHeader from "@/components/ui/MobileHeader";
 
 type PostUser = {
   id: number;
@@ -96,15 +97,7 @@ export default function PostPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-md mx-auto bg-white min-h-screen">
         {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-2 bg-white/90 backdrop-blur border-b border-gray-200">
-          <button onClick={() => router.back()} className="p-2 text-gray-700">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <h1 className="text-base font-semibold text-gray-800">Publicação</h1>
-          <div className="w-6" />
-        </div>
+        <MobileHeader title="Publicação" onBack={() => router.back()} right={null} />
 
         {/* Body */}
         {loading ? (
