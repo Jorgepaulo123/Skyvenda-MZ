@@ -3,6 +3,7 @@ import React, { useState, useMemo, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../../context/AuthContext";
 import api from "../../api/api";
+import Header1 from "../../components/Header1";
 
 export default function ReviewPage() {
   const router = useRouter();
@@ -125,222 +126,244 @@ export default function ReviewPage() {
   // ---------------------------------------------------------------------
 
   return (
-    <div className="w-full max-w-xl mx-auto p-4">
-      <button
-        onClick={() => (step === 0 ? router.back() : prev())}
-        className="mb-4 text-sm underline"
-      >
-        Voltar
-      </button>
+    <>
+      <Header1 />
+      <div className="container mx-auto px-4 py-6">
+        <div className="max-w-2xl mx-auto">
+          <div className="mb-4 flex items-center justify-between">
+            <button
+              onClick={() => (step === 0 ? router.back() : prev())}
+              className="text-sm text-indigo-600 hover:text-indigo-700"
+            >
+              Voltar
+            </button>
 
-      <p className="text-xs text-gray-500 mb-2">
-        Estado da revisão: {user?.revisao || "desconhecido"}
-      </p>
+            <div className="flex items-center gap-2 text-xs">
+              <span className={`px-2 py-1 rounded-full ${step >= 0 ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-600'}`}>1</span>
+              <span className={`px-2 py-1 rounded-full ${step >= 1 ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-600'}`}>2</span>
+              <span className={`px-2 py-1 rounded-full ${step >= 2 ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-600'}`}>3</span>
+            </div>
+          </div>
 
-      {user?.revisao === "pendente" && (
-        <div className="p-4 border rounded-md bg-blue-50">
-          <h2 className="text-lg font-semibold">Olá {firstName}</h2>
-          <p className="mt-2">Sua verificação está pendente. Aguarde análise.</p>
-          <button
-            onClick={() => router.back()}
-            className="mt-4 bg-purple-600 text-white px-4 py-2 rounded-md"
-          >
-            Voltar
-          </button>
-        </div>
-      )}
+          <p className="text-xs text-gray-500 mb-3">
+            Estado da revisão: {user?.revisao || "desconhecido"}
+          </p>
 
-      {user?.revisao !== "pendente" && (
-        <>
-          {step === 0 && (
-            <div className="space-y-3">
+          {user?.revisao === "pendente" && (
+            <div className="p-5 border rounded-xl bg-blue-50 border-blue-100 shadow-sm">
               <h2 className="text-xl font-semibold">Olá {firstName}</h2>
-              <p>Para ter melhores experiências nos serviços SkyVenda/SkyWallet precisamos verificar sua conta.</p>
-
-              <div className="bg-amber-50 p-3 rounded-md border border-amber-200">
-                <p className="font-semibold text-amber-700">Vantagens:</p>
-                <p>- Segurança</p>
-                <p>- Limites aumentados</p>
-                <p>- Mais confiança</p>
-              </div>
-
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={acceptedTerms}
-                  onChange={() => setAcceptedTerms(!acceptedTerms)}
-                />
-                <span>Aceito os termos</span>
-              </label>
-
-              <button className="bg-purple-600 text-white px-4 py-2 rounded-md" onClick={next}>
-                Começar
-              </button>
-            </div>
-          )}
-
-          {step === 1 && (
-            <div className="space-y-3">
-              <h2 className="text-lg font-semibold">1. Dados pessoais</h2>
-
-              {/* Data */}
-              <div>
-                <p>Data de nascimento</p>
-                <div className="flex gap-2">
-                  <select
-                    value={birthDay}
-                    onChange={(e) => { setBirthDay(e.target.value); applyBirthDate(); }}
-                    className="border p-2 rounded"
-                  >
-                    <option value="">Dia</option>
-                    {days.map((d) => <option key={d}>{d}</option>)}
-                  </select>
-
-                  <select
-                    value={birthMonth}
-                    onChange={(e) => { setBirthMonth(e.target.value); applyBirthDate(); }}
-                    className="border p-2 rounded"
-                  >
-                    <option value="">Mês</option>
-                    {months.map((m) => <option key={m}>{m}</option>)}
-                  </select>
-
-                  <select
-                    value={birthYear}
-                    onChange={(e) => { setBirthYear(e.target.value); applyBirthDate(); }}
-                    className="border p-2 rounded flex-1"
-                  >
-                    <option value="">Ano</option>
-                    {years.map((y) => <option key={y}>{y}</option>)}
-                  </select>
-                </div>
-              </div>
-
-              {/* Nacionalidade */}
-              <div>
-                <p>Nacionalidade</p>
-                <select
-                  className="border p-2 rounded"
-                  value={nacionalidade}
-                  onChange={(e) => setNacionalidade(e.target.value)}
-                >
-                  {nacionalidades.map((n) => <option key={n}>{n}</option>)}
-                </select>
-              </div>
-
-              {/* Sexo */}
-              <div>
-                <p>Sexo</p>
-                <select
-                  className="border p-2 rounded"
-                  value={sexo}
-                  onChange={(e) => setSexo(e.target.value)}
-                >
-                  <option value="">Selecionar</option>
-                  {sexoOptions.map((s) => <option key={s}>{s}</option>)}
-                </select>
-              </div>
-
-              <button className="bg-purple-600 text-white px-4 py-2 rounded-md" onClick={next}>
-                Continuar
-              </button>
-            </div>
-          )}
-
-          {step === 2 && (
-            <div className="space-y-3">
-              <h2 className="text-lg font-semibold">2. Localização</h2>
-
-              <div>
-                <p>Província</p>
-                <select
-                  className="border p-2 rounded"
-                  value={provincia}
-                  onChange={(e) => { setProvincia(e.target.value); setDistrito(""); }}
-                >
-                  <option value="">Selecionar</option>
-                  {provincias.map((p) => <option key={p}>{p}</option>)}
-                </select>
-              </div>
-
-              <div>
-                <p>Distrito</p>
-                <select
-                  className="border p-2 rounded"
-                  disabled={!provincia}
-                  value={distrito}
-                  onChange={(e) => setDistrito(e.target.value)}
-                >
-                  <option value="">Selecionar</option>
-                  {(distritosPorProvincia[provincia] || []).map((d) => (
-                    <option key={d}>{d}</option>
-                  ))}
-                </select>
-              </div>
-
-              <input
-                placeholder="Bairro"
-                className="border p-2 rounded w-full"
-                value={bairro}
-                onChange={(e) => setBairro(e.target.value)}
-              />
-
-              <input
-                placeholder="Contacto"
-                className="border p-2 rounded w-full"
-                value={contacto}
-                onChange={(e) => setContacto(e.target.value)}
-              />
-
-              <button className="bg-purple-600 text-white px-4 py-2 rounded-md" onClick={next}>
-                Continuar
-              </button>
-            </div>
-          )}
-
-          {step === 3 && (
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold">3. Documentos</h2>
-
-              <div>
-                <p>Foto do rosto</p>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setFotoRetrato(e.target.files?.[0] || null)}
-                />
-              </div>
-
-              <div>
-                <p>BI - Frente</p>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setFotoFrente(e.target.files?.[0] || null)}
-                />
-              </div>
-
-              <div>
-                <p>BI - Verso</p>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setFotoVerso(e.target.files?.[0] || null)}
-                />
-              </div>
-
+              <p className="mt-2 text-gray-700">Sua verificação está pendente. Aguarde análise.</p>
               <button
-                onClick={handleSubmit}
-                disabled={submitting}
-                className="bg-amber-600 text-white px-4 py-2 rounded-md"
+                onClick={() => router.back()}
+                className="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg"
               >
-                {submitting ? "Enviando..." : "Enviar verificação"}
+                Voltar
               </button>
             </div>
           )}
-        </>
-      )}
-    </div>
+
+          {user?.revisao !== "pendente" && (
+            <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 space-y-5">
+              {step === 0 && (
+                <div className="space-y-4">
+                  <h2 className="text-2xl font-semibold">Olá {firstName}</h2>
+                  <p className="text-gray-700">Para ter melhores experiências nos serviços SkyVenda/SkyWallet precisamos verificar sua conta.</p>
+
+                  <div className="bg-amber-50 p-4 rounded-xl border border-amber-200 text-amber-800">
+                    <p className="font-semibold">Vantagens:</p>
+                    <ul className="list-disc pl-5 space-y-1 text-sm">
+                      <li>Segurança</li>
+                      <li>Limites aumentados</li>
+                      <li>Mais confiança</li>
+                    </ul>
+                  </div>
+
+                  <label className="flex items-center gap-2 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={acceptedTerms}
+                      onChange={() => setAcceptedTerms(!acceptedTerms)}
+                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    />
+                    <span>Aceito os termos</span>
+                  </label>
+
+                  <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg" onClick={next}>
+                    Começar
+                  </button>
+                </div>
+              )}
+
+              {step === 1 && (
+                <div className="space-y-4">
+                  <h2 className="text-lg font-semibold">1. Dados pessoais</h2>
+
+                  <div>
+                    <p className="text-sm text-gray-700">Data de nascimento</p>
+                    <div className="mt-1 grid grid-cols-3 gap-2">
+                      <select
+                        value={birthDay}
+                        onChange={(e) => { setBirthDay(e.target.value); applyBirthDate(); }}
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      >
+                        <option value="">Dia</option>
+                        {days.map((d) => <option key={d}>{d}</option>)}
+                      </select>
+
+                      <select
+                        value={birthMonth}
+                        onChange={(e) => { setBirthMonth(e.target.value); applyBirthDate(); }}
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      >
+                        <option value="">Mês</option>
+                        {months.map((m) => <option key={m}>{m}</option>)}
+                      </select>
+
+                      <select
+                        value={birthYear}
+                        onChange={(e) => { setBirthYear(e.target.value); applyBirthDate(); }}
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      >
+                        <option value="">Ano</option>
+                        {years.map((y) => <option key={y}>{y}</option>)}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-sm text-gray-700">Nacionalidade</p>
+                    <select
+                      className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      value={nacionalidade}
+                      onChange={(e) => setNacionalidade(e.target.value)}
+                    >
+                      {nacionalidades.map((n) => <option key={n}>{n}</option>)}
+                    </select>
+                  </div>
+
+                  <div>
+                    <p className="text-sm text-gray-700">Sexo</p>
+                    <select
+                      className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      value={sexo}
+                      onChange={(e) => setSexo(e.target.value)}
+                    >
+                      <option value="">Selecionar</option>
+                      {sexoOptions.map((s) => <option key={s}>{s}</option>)}
+                    </select>
+                  </div>
+
+                  <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg" onClick={next}>
+                    Continuar
+                  </button>
+                </div>
+              )}
+
+              {step === 2 && (
+                <div className="space-y-4">
+                  <h2 className="text-lg font-semibold">2. Localização</h2>
+
+                  <div>
+                    <p className="text-sm text-gray-700">Província</p>
+                    <select
+                      className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      value={provincia}
+                      onChange={(e) => { setProvincia(e.target.value); setDistrito(""); }}
+                    >
+                      <option value="">Selecionar</option>
+                      {provincias.map((p) => <option key={p}>{p}</option>)}
+                    </select>
+                  </div>
+
+                  <div>
+                    <p className="text-sm text-gray-700">Distrito</p>
+                    <select
+                      className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      disabled={!provincia}
+                      value={distrito}
+                      onChange={(e) => setDistrito(e.target.value)}
+                    >
+                      <option value="">Selecionar</option>
+                      {(distritosPorProvincia[provincia] || []).map((d) => (
+                        <option key={d}>{d}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <input
+                      placeholder="Bairro"
+                      className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      value={bairro}
+                      onChange={(e) => setBairro(e.target.value)}
+                    />
+                  </div>
+
+                  <div>
+                    <input
+                      placeholder="Contacto"
+                      className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      value={contacto}
+                      onChange={(e) => setContacto(e.target.value)}
+                    />
+                  </div>
+
+                  <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg" onClick={next}>
+                    Continuar
+                  </button>
+                </div>
+              )}
+
+              {step === 3 && (
+                <div className="space-y-4">
+                  <h2 className="text-lg font-semibold">3. Documentos</h2>
+
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-sm text-gray-700">Foto do rosto</p>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setFotoRetrato(e.target.files?.[0] || null)}
+                        className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2"
+                      />
+                    </div>
+
+                    <div>
+                      <p className="text-sm text-gray-700">BI - Frente</p>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setFotoFrente(e.target.files?.[0] || null)}
+                        className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2"
+                      />
+                    </div>
+
+                    <div>
+                      <p className="text-sm text-gray-700">BI - Verso</p>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setFotoVerso(e.target.files?.[0] || null)}
+                        className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2"
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleSubmit}
+                    disabled={submitting}
+                    className="bg-amber-600 hover:bg-amber-700 disabled:opacity-60 text-white px-4 py-2 rounded-lg"
+                  >
+                    {submitting ? "Enviando..." : "Enviar verificação"}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </>
   );
     }
         
