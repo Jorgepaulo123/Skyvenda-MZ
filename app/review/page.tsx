@@ -6,7 +6,8 @@ import api from "../../api/api";
 
 export default function ReviewPage() {
   const router = useRouter();
-  const { user } = useContext(AuthContext);
+  const auth = useContext(AuthContext) as any;
+  const user = auth?.user;
 
   type Step = 0 | 1 | 2 | 3;
 
